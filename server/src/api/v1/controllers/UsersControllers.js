@@ -383,7 +383,7 @@ module.exports.forgotPasswordToken = async (req, res) => {
 
         await UserModel.findByIdAndUpdate(user._id, { resetToken, resetTokenExpiration })
 
-        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+        const resetLink = `${process.env.FRONTEND_URL}/new-password?token=${resetToken}`;
         const emailText = `Click the following link to reset your password: ${resetLink}`;
         await sendMail(email, 'Password Reset', emailText);
 

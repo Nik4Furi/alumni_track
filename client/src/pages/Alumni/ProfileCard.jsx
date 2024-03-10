@@ -13,7 +13,7 @@ const ProfileCard = ({ alumnis }) => {
               src={alumnis?.avatar?.url ? alumnis?.avatar?.url : 'https://randomuser.me/api/portraits/men/3.jpg'}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
-              w={'auto'}
+              w={'50%'}
             />
             <Stack mt='6' spacing='3'>
               <Heading size='md'>{alumnis?.name}</Heading>
@@ -22,7 +22,7 @@ const ProfileCard = ({ alumnis }) => {
                 {alumnis?.experiences[0]?.designation}
               </Text>
               <Text color='blue.600' fontSize='sm'>
-                Batch {alumnis?.start_year}-{alumnis?.passing_year}
+                Batch {alumnis?.start_year?.split('T')?.[0]}-{alumnis?.passing_year?.split('T')?.[0]}
               </Text>
             </Stack>
           </Flex>

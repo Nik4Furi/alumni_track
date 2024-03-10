@@ -15,6 +15,9 @@ import Alumni from './pages/Alumni/Alumni'
 import UserProfile from './pages/Profile/User/UserProfile.jsx'
 import toast,{Toaster} from 'react-hot-toast'
 import AdminLogin from './components/auth/AdminLogin.jsx'
+import ForgotPassword from './components/auth/ForgotPassword.jsx'
+import ResetPassword from './components/auth/ResetPassword.jsx'
+import CreatePost from './pages/Posts/CreatePost.jsx'
 
 const App = () => {
   return (
@@ -30,9 +33,12 @@ const App = () => {
           <Route path='/home' element={<SideBar page={<Home />} />} />
           <Route path='/alumni' element={<SideBar page={<Alumni />} />} />
           <Route path='/profile' element={<SideBar page={<UserProfile />} />} />
+          <Route path='/create-post' element={<SideBar page={< CreatePost />} />} />
           <Route path='/dashboard/college' element={<Dashboard />} />
           <Route path='/dashboard/admin' element={<Admin />} />
           <Route path='/admin/login' element={<AdminLogin />} />
+          <Route path='/reset-password' element={<ForgotPassword />} />
+          <Route path='/new-password' element={<ResetPassword />} />          
           <Route path='*' element={<NotFound />} />
         </Routes>
 

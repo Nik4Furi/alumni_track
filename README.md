@@ -1,25 +1,21 @@
-<div style="text-align:center;">
-<img src="./Logo.png" alt="Image description" style="width:200px;height:200px;">  
-</div>
+# Alumn Connect
+### Alumni Tracking System
+It's a platform where colleges, students, and alumnis can connect to each other and share the valuable opportunity, knowledges, and posts and make their connections
 
-
+**Speciality**
 - It is a robust, user-friendly, and scalable Alumni tracking System and Database
 - This system should collect, store, and manage data about alumni and their career paths, with a focus on real-time updates and long-term tracking.
-
-
-
-
 
 
 ## **Table of Content**
 
 - #### <p> <a href="#tech_Stack"> Tech_Stack </a></p>
+- #### <p> <a href="#demo"> Demo </a></p>- 
 - #### <p> <a href="#features"> Features </a></p>
 - #### <p> <a href="#env"> Environmental Variables </a></p>
 - #### <p> <a href="#rou_ref"> Router References </a></p>
 - #### <p> <a href="#color"> Colour Reference </a></p>
 - #### <p> <a href="#run"> Run Locally </a></p>
-- #### <p> <a href="#demo"> Demo </a></p>
 
 - #### <p> <a href="#future"> Future Development  </a></p>
 
@@ -28,6 +24,33 @@
 **Frontend :** ReactJS , ChakraUI , BootStrap <br>
 **Database :** MongoDB<br>
 **ChatBot :** AI/ML
+
+## Demos
+
+#### Home/Other Pages
+
+<p text-align=left>
+  <img src="https://user-images.githubusercontent.com/91304976/203487604-039a41aa-c4ae-4fad-b76e-1b72ce7f0f78.png" width="400" height="" alt="Home Page"/>
+</p>
+
+#### Student/Alumni Pages
+
+<p text-align=left>
+  <img src="https://user-images.githubusercontent.com/91304976/203487604-039a41aa-c4ae-4fad-b76e-1b72ce7f0f78.png" width="400" height="" alt="Home Page"/>
+</p>
+
+#### College Page
+
+<p text-align=left>
+  <img src="https://user-images.githubusercontent.com/91304976/203487604-039a41aa-c4ae-4fad-b76e-1b72ce7f0f78.png" width="400" height="" alt="Home Page"/>
+</p>
+
+
+#### Admin Page
+
+<p text-align=left>
+  <img src="https://user-images.githubusercontent.com/91304976/203487604-039a41aa-c4ae-4fad-b76e-1b72ce7f0f78.png" width="400" height="" alt="Home Page"/>
+</p>
 
 
 

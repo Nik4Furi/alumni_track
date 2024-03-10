@@ -27,10 +27,15 @@ import {
 } from 'react-icons/fi'
 import Footer from './Footer'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LogoutUser } from '../../redux/UsersSlice'
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const user = useSelector(state => state.users.user);
+
+
+  console.log(user?.role,user,'role');
+
   return (
     <Box
       transition="3s ease"
@@ -50,6 +55,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <NavItem onClick={onClose}>
         <Link to={'/profile'}> Profile </Link>
       </NavItem>
+      {
+        user?.role === 'alumni' &&
+      <NavItem onClick={onClose}>
+        <Link to={'/create-post'}> Create Posts </Link>
+      </NavItem>
+      }
       <NavItem onClick={onClose}>
         <Link to={'/alumni'}> Alumni </Link>
       </NavItem>
@@ -166,11 +177,14 @@ const SideBar = ({ page }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const user = useSelector(state => state.users.user);
+
   const handleLogout = ()=>{
     dispatch(LogoutUser());
 
-    navigate('/');
+    navigate(-1);
   }
+
 
 
   return (
@@ -185,7 +199,7 @@ const SideBar = ({ page }) => {
           onOverlayClick={onClose}
           size="full">
           <DrawerContent>
-            <SidebarContent onClose={onClose} />
+            <SidebarContent role={user?.role} onClose={onClose} />
           </DrawerContent>
         </Drawer>
         {/* mobilenav */}

@@ -26,7 +26,9 @@ import {
   FiMenu,
 } from 'react-icons/fi'
 import Footer from './Footer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { LogoutUser } from '../../redux/UsersSlice'
 
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
@@ -46,7 +48,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       <NavItem onClick={onClose}>
-        <Link to={'/home'}> Home </Link>
+        <Link to={'/profile'}> Profile </Link>
       </NavItem>
       <NavItem onClick={onClose}>
         <Link to={'/alumni'}> Alumni </Link>
@@ -91,7 +93,9 @@ const NavItem = ({ icon, children, ...rest }) => {
   )
 }
 
-const MobileNav = ({ onOpen, ...rest }) => {
+const MobileNav = ({ onOpen,handleLogout, ...rest }) => {
+
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -147,7 +151,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
               <MenuItem>Profile</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
@@ -158,6 +162,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
 const SideBar = ({ page }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = ()=>{
+    dispatch(LogoutUser());
+
+    navigate('/');
+  }
+
 
   return (
     <>
@@ -175,7 +189,7 @@ const SideBar = ({ page }) => {
           </DrawerContent>
         </Drawer>
         {/* mobilenav */}
-        <MobileNav onOpen={onOpen} />
+        <MobileNav onOpen={onOpen} handleLogout={handleLogout} />
         <Box ml={{ base: 0, md: 60 }} p="4">
           {page}
         </Box>

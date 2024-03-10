@@ -24,7 +24,7 @@ module.exports.Register = async (req, res) => {
 
     try {
         //--------- Req.body content
-        const { name, email, password, clg_name, start_year, passing_year, clg_id, linkedin_url,phone } = req.body;
+        const { name, email, password, clg_name, start_year, passing_year, clg_id, linkedin_url,phone,course,bio } = req.body;
 
         //Requring all the specific fields
         if (!name || !email || !password || !clg_name || !start_year || !passing_year || !clg_id) { return res.status(404).json({ success: false, msg: "All fields are required" }) };
@@ -47,12 +47,28 @@ module.exports.Register = async (req, res) => {
 
         if (linkedin_url) socialMedia.linkedin = linkedin_url
 
+        //-------- Spliting the passing year and get year and month
+        const splitDate = passing_year?.split('T')[0];
+        const getYear = splitDate?.split('-')[0];
+        const getMonth = splitDate?.split('-')[1];
+
+        const currentDate = new Date();
+const currentYear = currentDate.getFullYear();
+const currentMonth = currentDate.getMonth();
+
+let role = 'student';
+
+if (getYear < currentYear || (getYear === currentYear && getMonth <= currentMonth)) 
+        role = 'alumni';
+
+  
+
         //Register the users
         users = await UserModel.create({
             name,
             email,
             password: hashPassword,
-            clg_id, clg_name, start_year, passing_year, socialMedia,phone
+            clg_id, clg_name, start_year, passing_year, socialMedia,phone,course,bio,role
         })
         await users.save();
 
@@ -62,17 +78,10 @@ module.exports.Register = async (req, res) => {
 
         const token = users.getJWTToken();
 
-        const options = {
-            expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), //10 days
-            httpOnly: true,
-            // secure:true,
-            sameSite: 'none'
-        }
-
         let data = [users?._id, users?.name, users?.avatar?.url, users?.verified];
 
 
-        return res.status(200).cookie('token', token, options).json({ success: true, msg: "Registration successfull", user: data })
+        return res.status(200).json({ success: true, msg: "Registration successfull", user: data,token })
 
     } catch (error) { return res.status(500).json({ success: false, msg: error.message }); }
 }
@@ -94,32 +103,13 @@ module.exports.Login = async (req, res) => {
         let hashPassword = await bcrypt.compare(password, users.password)
         if (!hashPassword) { return res.status(404).json({ success: false, msg: " username & password are invalid" }) }
 
-        //After login to check the status
-        /*
-            status is blocked redirected to block page
-            status is progress redirect to progress page msg
-            status is active then send token
-        */
-
-        // if (users?.verified == false) {
-        //    return res.status(200).json({success:true,msg:"You are not verified",verified:false})
-        // }
-
         //--------- Sending the token via cookies
         const token = users.getJWTToken();
-
-        const options = {
-            expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), //10 days
-            httpOnly: true,
-            // secure:true,
-            sameSite: 'none'
-        }
 
         let data = [users?._id, users?.name, users?.avatar?.url, users?.verified];
 
 
-        return res.status(200).cookie('token', token, options).json({ success: true, msg: `welcome back, ${users?.name}`, user: data })
-
+        return res.status(200).json({ success: true, msg: `welcome back, ${users?.name}`, user: data,token })
 
 
     } catch (error) { return res.status(500).json({ success: false, msg: error }); }

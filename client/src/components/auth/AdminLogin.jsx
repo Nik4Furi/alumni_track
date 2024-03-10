@@ -17,9 +17,12 @@ import {
     InputRightElement,
     useToast,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../main/Footer'
+import { useDispatch } from 'react-redux'
+import { token } from '../../utils/GlobalFunctions'
+import { LoginAdmin } from '../../redux/AdminSlice'
 
 export default function AdminLogin() {
     const navigate = useNavigate()
@@ -29,58 +32,18 @@ export default function AdminLogin() {
 
     const handleChange = (e) => { setForm({ ...form, [e.target.name]: e.target.value }) };
 
-    const toast = useToast();
+    const dispatch = useDispatch();
 
     const handleAdminLogin = async() => {
-
-        if (!form.email || !form.password) {
-            toast({
-                title: 'All fields are required.',
-                position: 'top',
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            })
-            return;
-        }
-
-
-        console.log(form,process.env.REACT_APP_URL);
-
-        const res = await fetch(`${process.env.REACT_APP_URL}/api/v1/user/login`,{
-            method : 'POST',
-            headers : {
-                'Content-Type' : 'application/json'
-            },
-            body : JSON.stringify(form)
-        })
-
-        const data  = await res.json();
-
-        if(data.success == false){
-            toast({
-                title: `${data.msg}`,
-                position: 'top',
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-            })
-
-            return;
-        }
-
-        // console.log(data);
-
-        toast({
-            title: `${data.msg}`,
-            position: 'top',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-        })
-
-        navigate('/dashboard/admin')
+        dispatch(LoginAdmin(form))
+      
     }
+
+    useEffect(()=>{
+        if(token){
+            navigate('/dashboard/admin')
+        }
+    },[])
 
     return (
         <>

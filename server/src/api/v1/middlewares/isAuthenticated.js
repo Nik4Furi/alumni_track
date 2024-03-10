@@ -6,7 +6,8 @@ const UserModel = require("../models/UsersModel"); //User model to find the user
 
 const isAuthenticated = async (req, res, next) => {
     try {
-        const token = req.cookies.token
+
+        const token = req.header('auth-token');
 
         if (!token)
             return res.status(200).json({ success: false, msg: 'You are not authenticate user' });

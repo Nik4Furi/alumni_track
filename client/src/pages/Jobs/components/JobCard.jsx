@@ -27,17 +27,17 @@ const JobCard = ({ detail }) => {
     <>
       <Card onClick={onOpen} mb={2}>
         <CardHeader>
-          <Heading size='md'>{detail.designation}</Heading>
+          <Heading size='md'>{detail?.designation}</Heading>
         </CardHeader>
 
         <CardBody>
           <Stack divider={<StackDivider />} spacing='4'>
             <Box>
               <Heading size='xs' textTransform='uppercase'>
-                {detail.company}
+                {detail?.cmp_detail?.cmp_name}
               </Heading>
               <Text pt='2' fontSize='sm'>
-                {detail.location}
+                {detail?.location}
               </Text>
             </Box>
             <Box>
@@ -45,7 +45,7 @@ const JobCard = ({ detail }) => {
                 Job Type
               </Heading>
               <Text pt='2' fontSize='sm'>
-                {detail.job_type}
+                {detail?.job_type}
               </Text>
             </Box>
             <Box>
@@ -53,7 +53,7 @@ const JobCard = ({ detail }) => {
                 Description
               </Heading>
               <Text pt='2' fontSize='sm' noOfLines={2}>
-                {detail.description}
+                {detail?.description}
               </Text>
             </Box>
             <Box>
@@ -61,7 +61,7 @@ const JobCard = ({ detail }) => {
                 Posted By
               </Heading>
               <Text pt='2' fontSize='sm' noOfLines={2}>
-                {detail.posted_by}
+                {detail?.posted_by}
               </Text>
             </Box>
           </Stack>

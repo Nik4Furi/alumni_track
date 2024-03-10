@@ -18,7 +18,7 @@ module.exports.sendMail = async function sendMail(email, subject, message) {
         to: email,
         subject: subject,
         html: `<body>
-        <h3>Chit-Chat Password Reset Email</h3>
+        <h3>Alumn Connect: Connect the different colleges</h3>
             ${message}
         </body>`
     };

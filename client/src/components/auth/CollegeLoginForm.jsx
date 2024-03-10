@@ -16,16 +16,36 @@ import {
     InputGroup,
     InputRightElement,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { LoginClg } from '../../redux/ClgSlice'
+import { token } from '../../utils/GlobalFunctions'
+import { useDispatch } from 'react-redux'
 
 export default function CollegeLoginForm() {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
 
+    const [form,setForm] = useState({email:'',password:''})
+
+    const handleChange = (e) => setForm({...form,[e.target.name]:e.target.value})
+
+    const dispatch = useDispatch()
+    
     const handleCollegeLogin = () => {
+        console.log(form)
+
+        dispatch(LoginClg(form));
+
         navigate('/dashboard/college')
     }
+
+    useEffect(()=>{
+
+        if(token)
+         navigate('/dashboard/college')
+
+    },[])
 
     return (
         <Flex
@@ -51,12 +71,12 @@ export default function CollegeLoginForm() {
                     <Stack spacing={4}>
                         <FormControl id="email" isRequired>
                             <FormLabel>Email address</FormLabel>
-                            <Input type="email" />
+                            <Input type="email" name='email' onChange={handleChange} />
                         </FormControl>
                         <FormControl id="password" isRequired>
                             <FormLabel>Password</FormLabel>
                             <InputGroup>
-                                <Input type={showPassword ? 'text' : 'password'} />
+                                <Input type={showPassword ? 'text' : 'password'} name='password' onChange={handleChange} />
                                 <InputRightElement h={'full'}>
                                     <Button
                                         variant={'ghost'}

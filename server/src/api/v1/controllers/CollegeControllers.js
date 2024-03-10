@@ -16,7 +16,7 @@ module.exports.Register = async (req, res) => {
 
     try {
         //--------- Req.body content
-        const { name, email, password, phone, institute_type, institute_code, website_link, address } = req.body;
+        const { name, email, password, phone, institute_type, institute_code, website_link, address,courses } = req.body;
 
 
         //Requring all the specific fields
@@ -51,7 +51,7 @@ module.exports.Register = async (req, res) => {
             password: hashPassword,
             logo_avatar: {
                 public_id: myCloud.public_id, url: myCloud.secure_url
-            }, institute_type, institute_code, website_link, phone, address
+            }, institute_type, institute_code, website_link, phone, address,courses
         })
         await college.save();
 
@@ -60,17 +60,7 @@ module.exports.Register = async (req, res) => {
         //--------- Sending the token via cookies
         const token = college.getJWTToken();
 
-        const options = {
-            expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), //10 days
-            httpOnly: true,
-            // secure:true,
-            sameSite: 'none'
-        }
-
-
-        return res.status(200).cookie('token', token, options).json({ success: true, msg: "Your college is register, Please wait for it's verification", college })
-
-
+        return res.status(200).json({ success: true, msg: "Your college is register, Please wait for it's verification", college ,token})
 
     } catch (error) { return res.status(500).json({ success: false, msg: error.message }); }
 }
@@ -103,17 +93,10 @@ module.exports.Login = async (req, res) => {
         //--------- Sending the token via cookies
         const token = college.getJWTToken();
 
-        const options = {
-            expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), //10 days
-            httpOnly: true,
-            // secure:true,
-            sameSite: 'none'
-        }
-
         let data = [college?._id, college?.name, college?.logo_avatar?.url, college?.verified];
 
 
-        return res.status(200).cookie('token', token, options).json({ success: true, msg: `welcome back, ${college?.name}`, college: data })
+        return res.status(200).json({ success: true, msg: `welcome back, ${college?.name}`, college: data,token })
 
 
     } catch (error) { return res.status(500).json({ success: false, msg: error.message }); }
@@ -168,7 +151,7 @@ module.exports.UpdateCollegeProfile = async (req, res) => {
 module.exports.GetAllClgStudentVerifiedList = async (req, res) => {
     try {
 
-        const clgStudents = await UsersModel.find({role:'student',verified:true,clg_name:req.college.name}).select('_id');
+        const clgStudents = await UsersModel.find({role:'student',verified:true,clg_name:req.college.name});
       
 
         return res.status(200).json({ success: true, msg: "Fetch all the students",students:clgStudents })
@@ -181,9 +164,9 @@ module.exports.GetAllClgStudentVerifiedList = async (req, res) => {
 module.exports.GetAllClgAlumniVerifiedList = async (req, res) => {
     try {
 
-        const clgAlumni = await UsersModel.find({role:'alumni',verified:true,clg_name:req.college.name}).select('_id');
+        const clgAlumni = await UsersModel.find({role:'alumni',verified:true,clg_name:req.college.name})
 
-        return res.status(200).json({ success: true, msg: "Fetch all the students",alumnis:clgAlumni })
+        return res.status(200).json({ success: true, msg: "Fetch all the alumnis",alumnis:clgAlumni })
 
 
     } catch (error) { return res.status(500).json({ success: false, msg: error.message }); }
@@ -206,7 +189,7 @@ module.exports.GetAllClgPostList = async (req, res) => {
 module.exports.GetAllClgStudentList = async (req, res) => {
     try {
 
-        const clgStudents = await UsersModel.find({role:'student',verified:false,clg_name:req.college.name}).select('_id')      
+        const clgStudents = await UsersModel.find({role:'student',verified:false,clg_name:req.college.name})     
 
         return res.status(200).json({ success: true, msg: "Fetch all unverified students",students:clgStudents })
 
@@ -218,9 +201,9 @@ module.exports.GetAllClgStudentList = async (req, res) => {
 module.exports.GetAllClgAlumniList = async (req, res) => {
     try {
 
-        const clgAlumni = await UsersModel.find({role:'alumni',verified:false,clg_name:req.college.name}).select('_id');
+        const clgAlumni = await UsersModel.find({role:'alumni',verified:false,clg_name:req.college.name})
 
-        return res.status(200).json({ success: true, msg: "Fetch all the students",alumnis:clgAlumni })
+        return res.status(200).json({ success: true, msg: "Fetch all the alumnis",alumnis:clgAlumni })
 
 
     } catch (error) { return res.status(500).json({ success: false, msg: error.message }); }

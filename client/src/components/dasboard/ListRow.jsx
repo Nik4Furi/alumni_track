@@ -9,18 +9,25 @@ import {
 import React from "react";
 import { RxCross1 } from "react-icons/rx";
 import { TiTick } from "react-icons/ti";
+import { useDispatch } from "react-redux";
+import { VerifyUserByClg } from "../../redux/ClgSlice";
 
 
 function ListRow(props) {
     const bgColor = useColorModeValue("#F8F9FA", "gray.800");
     const nameColor = useColorModeValue("gray.500", "white");
-    const { userId, name, collegeId, email, phone, batch, stream } = props;
+    const { userId, name, collegeId, email, phone, batch, stream,_id } = props;
+
+    const dispatch = useDispatch();
 
     // Denied Verification
     const handleNotVerified = (userId) => { alert('Verification denied for userId: '+userId) }
 
     // Verification True
-    const handleVerified = (userId) => { alert('Verification done for userId: '+userId) }
+    const handleVerified = () => {
+
+        dispatch(VerifyUserByClg(_id));
+     }
 
     return (
         <Box p="24px" bg={bgColor} my="22px" borderRadius="12px">

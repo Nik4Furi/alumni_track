@@ -18,13 +18,24 @@ import {
     Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { LogoutClg } from '../../redux/ClgSlice'
 
 
 
 export default function Simple() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleMenuClose = () => { onClose() }
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = ()=>{
+        dispatch(LogoutClg());
+
+        navigate('/')
+    }
 
     return (
         <>
@@ -63,7 +74,7 @@ export default function Simple() {
                             <MenuList>
                                 <MenuItem>Profile</MenuItem>
                                 <MenuDivider />
-                                <MenuItem>Log out</MenuItem>
+                                <MenuItem onClick={handleLogout}>Log out</MenuItem>
                             </MenuList>
                         </Menu>
                     </Flex>

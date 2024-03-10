@@ -3,8 +3,12 @@ import Navbar from '../../components/main/Navbar'
 import Footer from '../../components/main/Footer'
 import CollegeRegistrationForm from '../../components/auth/CollegeRegistrationForm'
 import { HStack, Heading, Stack, Text, VStack } from '@chakra-ui/react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const CollegeRegister = () => {
+
+
   return (
     <>
       <Navbar />

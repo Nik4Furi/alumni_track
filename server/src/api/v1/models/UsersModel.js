@@ -20,6 +20,8 @@ const UserSchema = new mongoose.Schema({
 
     phone : String,
 
+    course : String,
+
     password: { type: String, required: true, minlength: [8, "Password must be 8 char long "], maxlength: [120, "Password mustn't 120 char long"] },
 
     avatar: {
@@ -34,6 +36,8 @@ const UserSchema = new mongoose.Schema({
     clg_id : String,
     
     clg_name: String, //ECA
+
+    designation : String,
 
     profle_type: { type: String, default: 'public', enum: ['public', 'private'], required: true },
 

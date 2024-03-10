@@ -24,9 +24,11 @@ import {
 } from '@chakra-ui/react'
 
 import { useToast } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { RegisterClg } from '../../redux/ClgSlice'
 
-const Form1 = () => {
+const Form1 = ({handleChange,handleFile}) => {
 
     return (
         <>
@@ -37,25 +39,26 @@ const Form1 = () => {
                 <FormLabel htmlFor="name" fontWeight={'normal'}>
                     College Name
                 </FormLabel>
-                <Input id="name" type="text" />
+                <Input id="name" type="text" name='name' onChange={handleChange} />
             </FormControl>
 
             <FormControl mt="2%" isRequired>
-                <FormLabel htmlFor="institite" fontWeight={'normal'}>
+                <FormLabel htmlFor="institute" fontWeight={'normal'}>
                     Institute Type
                 </FormLabel>
                 <Select
-                    id="institite"
-                    name="institite"
-                    autoComplete="institite"
+                    id="institute"
+                    name="institute_type"
+                    onChange={handleChange}
+                    autoComplete="institute"
                     placeholder="Select type"
                     focusBorderColor="brand.400"
                     shadow="sm"
                     size="sm"
                     w="full"
                     rounded="md">
-                    <option>University</option>
-                    <option>College</option>
+                    <option>university</option>
+                    <option>college</option>
                 </Select>
             </FormControl >
 
@@ -63,23 +66,24 @@ const Form1 = () => {
                 <FormLabel htmlFor="logo" fontWeight={'normal'}>
                     College logo
                 </FormLabel>
-                <Input id="logo" type="file" />
+                <Input id="logo" type="file" name='file' onChange={handleFile} />
             </FormControl>
 
             <FormControl mt="2%" isRequired>
                 <FormLabel htmlFor="inst_code" fontWeight={'normal'}>
                     Institute Code
                 </FormLabel>
-                <Input id="inst_code" type="text" />
+                <Input id="inst_code" type="text" name="institute_code" onChange={handleChange} />
             </FormControl>
 
         </>
     )
 }
 
-const Form2 = () => {
+const Form2 = ({handleChange}) => {
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
+
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
@@ -90,14 +94,14 @@ const Form2 = () => {
                 <FormLabel htmlFor="email" fontWeight={'normal'}>
                     Email
                 </FormLabel>
-                <Input id="email" type="email" />
+                <Input id="email" type="email" name='email' onChange={handleChange} />
             </FormControl >
 
             <FormControl mt="2%" isRequired>
                 <FormLabel htmlFor="number" fontWeight={'normal'}>
                     Phone
                 </FormLabel>
-                <Input id="number" type="number" minLength={10} maxLength={10} />
+                <Input id="number" type="number" name='phone' onChange={handleChange} minLength={10} maxLength={10} />
             </FormControl>
 
             <FormControl mt={'2%'} colSpan={6} isRequired>
@@ -112,7 +116,7 @@ const Form2 = () => {
                     mt="2%">
                     Address
                 </FormLabel>
-                <Input id="street_address" type="text" />
+                <Input id="street_address" type="text" name='address' onChange={handleChange} />
             </FormControl>
 
             <FormControl colSpan={6} mt={'2%'}>
@@ -136,7 +140,9 @@ const Form2 = () => {
                         http://
                     </InputLeftAddon>
                     <Input
-                        type="tel"
+                        type="text"
+                        name='website_link'
+                        onChange={handleChange}
                         placeholder="www.example.com"
                         focusBorderColor="brand.400"
                         rounded="md"
@@ -154,6 +160,8 @@ const Form2 = () => {
                         pr="4.5rem"
                         type={show ? 'text' : 'password'}
                         placeholder="Enter password"
+                        name='password'
+                        onChange={handleChange}
                     />
                     <InputRightElement width="4.5rem">
                         <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -166,7 +174,7 @@ const Form2 = () => {
     )
 }
 
-const Form3 = () => {
+const Form3 = ({handleChange}) => {
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal">
@@ -207,15 +215,40 @@ export default function CollegeRegistrationForm() {
     const [step, setStep] = useState(1)
     const [progress, setProgress] = useState(33.33)
 
-    const handleRegistration = () => {
-        toast({
-            title: 'Account created.',
-            description: "We've created your account for you.",
-            position: 'top',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-        })
+
+    const [form, setForm] = useState({
+        name:'',email:'',password:'',phone:'',website_link:'',institute_code:'',institute_type:'',address:'',courses:[]
+    });
+
+    const [file,setFile] = useState(null);
+
+    const handleFile = (e) => setFile(e.target.files[0])
+
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+
+    const handleClgRegister = () => {
+
+        console.log(form);
+        console.log(file);
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('name',form.name);
+        formData.append('email',form.email);
+        formData.append('password',form.password);
+        formData.append('phone',form.phone);
+        formData.append('institute_type',form.institute_type);
+        formData.append('institute_code',form.institute_code);
+        formData.append('website_link',form.website_link);
+        formData.append('address',form.address);
+        formData.append('courses',form.courses);
+
+        dispatch(RegisterClg(formData));
+    
     }
 
     return (
@@ -230,7 +263,7 @@ export default function CollegeRegistrationForm() {
                 m="10px auto"
                 as="form">
                 <Progress hasStripe value={progress} mb="5%" mx="5%" isAnimated colorScheme='pink'></Progress>
-                {step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />}
+                {step === 1 ? <Form1 handleChange={handleChange} handleFile={handleFile} /> : step === 2 ? <Form2 handleChange={handleChange} /> : <Form3 handleChange={handleChange} />}
                 <ButtonGroup mt="5%" w="100%">
                     <Flex w="100%" justifyContent="space-between">
                         <Flex>
@@ -258,7 +291,7 @@ export default function CollegeRegistrationForm() {
                                         }
                                     }
                                     else {
-                                        handleRegistration()
+                                        handleClgRegister()
                                     }
                                 }}
                                 colorScheme="pink"

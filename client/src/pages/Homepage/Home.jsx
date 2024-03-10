@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Jobs from '../Jobs/Jobs'
+import { FetchAllClgPosts, Profile } from '../../redux/UsersSlice';
+import { useDispatch } from 'react-redux';
+
+import {token} from '../../utils/GlobalFunctions'
 
 const Home = () => {
   const jobDetail = [
@@ -40,6 +44,17 @@ const Home = () => {
       'posted_by': 'Pawan'
     },
   ]
+
+  const dispatch = useDispatch();
+ 
+  useEffect(()=>{
+    if(token){
+
+      dispatch(Profile())
+
+      dispatch(FetchAllClgPosts())
+    }
+  },[])
 
   return (
     <>

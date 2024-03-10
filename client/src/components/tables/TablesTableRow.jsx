@@ -10,9 +10,18 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { MdDelete } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { DeleteUser } from "../../redux/AdminSlice";
 
 function TablesTableRow(props) {
-    const { logo, name, email, collegeId, phone, batch, course } = props;
+    const { logo, name, email, collegeId, phone, batch, course,_id } = props;
+
+    const dispatch = useDispatch();
+
+    const handleDelete = ()=>{
+
+        dispatch(DeleteUser(_id));
+    }
 
     return (
         <Tr>
@@ -55,14 +64,14 @@ function TablesTableRow(props) {
                 </Text>
             </Td>
             <Td>
-                <Button p="0px" bg="red.500" variant="no-hover">
+                <Button p="0px" onClick={handleDelete} bg="red.500" variant="no-hover">
                     <Text
                         fontSize="md"
                         color="white"
                         fontWeight="bold"
                         cursor="pointer"
                     >
-                        <MdDelete />
+                        <MdDelete  />
                     </Text>
                 </Button>
             </Td>

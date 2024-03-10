@@ -3,10 +3,15 @@ import { Flex, Text, useColorModeValue, Card, CardBody, CardHeader, Box } from "
 // Custom components
 import ListRow from "./ListRow";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const UnverifiedUserList = ({ title, data }) => {
 
     const textColor = useColorModeValue("gray.700", "white");
+
+    const UnverifiedStud = useSelector(state => state.clg.UnverifiedStud);
+
+    console.log('uvner',UnverifiedStud);
 
     return (
         <Box mt={'50px'} w={['94vw', 'full']} p={2}>
@@ -17,16 +22,18 @@ const UnverifiedUserList = ({ title, data }) => {
                 <Flex direction='column'>
                     <CardBody>
                         <Flex direction='column' >
-                            {data.map((row) => {
+                            {UnverifiedStud?.length <=0 && <h5>No students yet!</h5>}
+                            {UnverifiedStud?.map((row) => {
                                 return (
                                     <ListRow
+                                        _id = {row?._id}
                                         userId={row.userId}
-                                        name={row.name}
-                                        collegeId={row.collegeId}
-                                        email={row.email}
-                                        phone={row.phone}
-                                        batch={row.batch}
-                                        stream={row.course}
+                                        name={row?.name}
+                                        collegeId={row?.clg_id}
+                                        email={row?.email}
+                                        phone={row?.phone}
+                                        batch={row?.passing_year?.split('T')?.[0]}
+                                        stream={row?.course}
                                     />
                                 );
                             })}

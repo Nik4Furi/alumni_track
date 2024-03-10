@@ -15,6 +15,7 @@ import TablesTableRow from '../../components/tables/TablesTableRow'
 
 const StudentTable = ({ captions, data }) => {
 
+
   return (
     <Card overflowX={{ sm: "scroll", xl: "hidden" }} variant={'simple'}>
       <CardBody >
@@ -34,14 +35,15 @@ const StudentTable = ({ captions, data }) => {
             {data.map((row, index) => {
               return (
                 <TablesTableRow
+                  _id = {row?._id}
                   key={index}
-                  name={row.name}
-                  logo={row.profilePic}
-                  email={row.email}
-                  phone={row.phone}
-                  collegeId={row.collegeId}
-                  batch={row.batch}
-                  course={row.course}
+                  name={row?.name}
+                  logo={row?.avatar?.url}
+                  email={row?.email}
+                  phone={row?.phone}
+                  collegeId={row?.clg_id}
+                  batch={row?.passing_year?.split('T')?.[0]}
+                  course={row?.course}
                 />
 
               );

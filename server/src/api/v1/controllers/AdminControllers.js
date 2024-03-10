@@ -5,6 +5,7 @@ const UserModel = require('../models/UsersModel'); //User modal
 const CollegeModel = require('../models/CollegeModel'); //College modal
 
 const PostModel = require('../models/PostModel'); //POst Modal
+const { sendMail } = require('../middlewares/SendMail');
 
 
 //----------- Controllers of Admin
@@ -29,6 +30,8 @@ module.exports.DeleteCollege = async (req, res) => {
 
         if(!colleges) return res.status(404).json({success:false,msg:"College not found"})
 
+        sendMail(colleges?.email,"Alumn Connect : | No Reply","Deleting your request to verify the college")
+
         return res.status(200).json({ success: true, msg: 'Delete the college successfully' })
 
 
@@ -47,13 +50,15 @@ module.exports.GetVerifiedAlumniList = async (req, res) => {
 }
 
 module.exports.DeleteUser = async (req, res) => {
-
+    console.log(req.params);
     try {
         const { _id } = req.params;
 
         const user = await UserModel.findOneAndDelete({ _id });
 
         if(!user) return res.status(404).json({success:false,msg:"User not found"})
+
+        sendMail(user?.email,"Alump Connect: No Reply","Deleting your data by the admin")
 
         return res.status(200).json({ success: true, msg: 'Delete the user successfully' })
 

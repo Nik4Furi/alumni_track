@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Flex, Heading
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ProfileCard = ({ users }) => {
+const ProfileCard = ({ alumnis }) => {
 
   return (
     <>
@@ -10,19 +10,19 @@ const ProfileCard = ({ users }) => {
         <CardBody>
           <Flex alignItems={'center'} justify={'space-around'}>
             <Image
-              src='https://randomuser.me/api/portraits/men/3.jpg'
+              src={alumnis?.avatar?.url ? alumnis?.avatar?.url : 'https://randomuser.me/api/portraits/men/3.jpg'}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
               w={'auto'}
             />
             <Stack mt='6' spacing='3'>
-              <Heading size='md'>Name</Heading>
+              <Heading size='md'>{alumnis?.name}</Heading>
               <Text
               >
-                Designation
+                {alumnis?.experiences[0]?.designation}
               </Text>
               <Text color='blue.600' fontSize='sm'>
-                Batch 2020-2024
+                Batch {alumnis?.start_year}-{alumnis?.passing_year}
               </Text>
             </Stack>
           </Flex>

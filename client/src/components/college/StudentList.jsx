@@ -3,10 +3,14 @@ import MiniStatistics from '../statistics/MiniStatistics'
 import { FaUser } from 'react-icons/fa';
 import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import StudentTable from '../tables/StudentTable'
+import { useSelector } from 'react-redux';
 
 
 const StudentList = ({ verifiedStudentList }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const students = useSelector(state => state.admin.students); 
+
     return (
         <>
             <Box onClick={onOpen} cursor={'pointer'}>
@@ -26,7 +30,7 @@ const StudentList = ({ verifiedStudentList }) => {
                         <StudentTable
                             title={'All Verified Students'}
                             captions={['User', 'College_Id', 'Batch', 'Course', 'Phone']}
-                            data={verifiedStudentList} />
+                            data={students} />
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onClose}>Close</Button>

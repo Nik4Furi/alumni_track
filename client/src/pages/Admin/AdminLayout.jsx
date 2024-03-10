@@ -12,23 +12,31 @@ import verifiedStudentList from '../../data/verifiedStudentList'
 import verifiedAlumniList from '../../data/verifiedAlumniList';
 import unverifiedCollegeList from '../../data/unverifiedCollegeList'
 import CollegeList from '../../components/admin/CollegeList'
+import { useDispatch } from 'react-redux'
+import { GetAllPostedJobsList, GetUnverifiedCollegeList, GetVerifiedAlumniList, GetVerifiedCollegeList, GetVerifiedStudentList } from '../../redux/AdminSlice'
+import { token } from '../../utils/GlobalFunctions'
 
 const AdminLayout = () => {
 
-    const url = process.env.REACT_APP_URL;
-
-    const FetchVerifyClgList = async()=>{
-        
-        const {data} = axios.get(`${url}/api/v1/admin/fetch-verify-clg-list`,{
-            
-        })
-
-        console.log(data);
-    }
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-        FetchVerifyClgList();
+        if(token){
+
+            dispatch(GetVerifiedCollegeList());
+            
+            dispatch(GetUnverifiedCollegeList());
+
+            dispatch(GetVerifiedAlumniList());
+
+            dispatch(GetVerifiedStudentList());
+
+            dispatch(GetAllPostedJobsList());
+        }
     },[])
+
+       
+
 
     return (
         <>

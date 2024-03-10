@@ -3,10 +3,15 @@ import { Flex, Text, useColorModeValue, Card, CardBody, CardHeader, Box } from "
 // Custom components
 import UnverifiedCollege from "./UnverifiedCollege";
 import React from "react";
+import { useSelector } from "react-redux";
 
 const UnverifiedCollegeList = ({ title, data }) => {
 
     const textColor = useColorModeValue("gray.700", "white");
+
+    const clgs = useSelector(state => state.admin.clgs);
+
+    console.log('clgs ', clgs);
 
     return (
         <Box mt={'50px'} w={['94vw', 'full']} p={2}>
@@ -17,17 +22,18 @@ const UnverifiedCollegeList = ({ title, data }) => {
                 <Flex direction='column'>
                     <CardBody>
                         <Flex direction='column' >
-                            {data.map((row) => {
+                            {clgs?.map((row) => {
                                 return (
                                     <UnverifiedCollege
-                                        collegeId={row.id}
-                                        name={row.name}
-                                        type={row.type}
-                                        institute_no={row.institute_no}
-                                        email={row.email}
-                                        phone={row.phone}
-                                        website={row.website}
-                                        address={row.address}
+                                        _id={row?._id}
+                                        key={row?._id}
+                                        institute_no={row?.institute_code}
+                                        name={row?.name}
+                                        type={row?.institute_type}
+                                        email={row?.email}
+                                        phone={row?.phone}
+                                        website={row?.website_link}
+                                        address={row?.address}
                                     />
                                 );
                             })}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import {useDispatch} from 'react-redux'
 import {
     Progress,
     Box,
@@ -28,8 +29,9 @@ import {
 
 import { useToast } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
+import { RegisterUser } from '../../redux/UsersSlice'
 
-const Form1 = () => {
+const Form1 = ({form,setForm,handleChange}) => {
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
     return (
@@ -41,19 +43,19 @@ const Form1 = () => {
                 <FormLabel htmlFor="name" fontWeight={'normal'}>
                     Name
                 </FormLabel>
-                <Input id="name" type="text" />
+                <Input id="name" type="text" name='name' onChange={handleChange} />
             </FormControl>
             <FormControl mt="2%" isRequired>
                 <FormLabel htmlFor="email" fontWeight={'normal'}>
                     Email
                 </FormLabel>
-                <Input id="email" type="email" />
+                <Input id="email" type="email" name='email' onChange={handleChange} />
             </FormControl >
             <FormControl mt="2%" isRequired>
                 <FormLabel htmlFor="number" fontWeight={'normal'}>
                     Phone
                 </FormLabel>
-                <Input id="number" type="number" minLength={10} maxLength={10} />
+                <Input id="phone" type="phone" minLength={10} maxLength={10} name='phone' onChange={handleChange} />
             </FormControl>
             <FormControl mt="2%" isRequired>
                 <FormLabel htmlFor="acc_type" fontWeight={'normal'}>
@@ -79,6 +81,8 @@ const Form1 = () => {
                         pr="4.5rem"
                         type={show ? 'text' : 'password'}
                         placeholder="Enter password"
+                        name='password'
+                        onChange={handleChange}
                     />
                     <InputRightElement width="4.5rem">
                         <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -91,7 +95,7 @@ const Form1 = () => {
     )
 }
 
-const Form2 = () => {
+const Form2 = ({handleChange}) => {
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal" mb="2%">
@@ -99,7 +103,7 @@ const Form2 = () => {
             </Heading>
             <FormControl as={GridItem} colSpan={[6, 3]} isRequired>
                 <FormLabel
-                    htmlFor="college"
+                    htmlFor="clg_name"
                     fontSize="sm"
                     fontWeight="md"
                     color="gray.700"
@@ -109,8 +113,9 @@ const Form2 = () => {
                     College
                 </FormLabel>
                 <Select
-                    id="college"
-                    name="college"
+                    onChange={handleChange}
+                    id="clg_name"
+                    name="clg_name"
                     autoComplete="college"
                     placeholder="Select college"
                     focusBorderColor="brand.400"
@@ -136,6 +141,7 @@ const Form2 = () => {
                     Course Name
                 </FormLabel>
                 <Select
+                    onChange={handleChange}
                     id="course"
                     name="course"
                     autoComplete="course"
@@ -151,7 +157,7 @@ const Form2 = () => {
                 </Select>
             </FormControl>
 
-            <FormControl as={GridItem} colSpan={[6, 6, null, 2]} isRequired>
+            {/* <FormControl as={GridItem} colSpan={[6, 6, null, 2]} isRequired>
                 <FormLabel
                     htmlFor="stream"
                     fontSize="sm"
@@ -174,27 +180,27 @@ const Form2 = () => {
                     w="full"
                     rounded="md"
                 />
-            </FormControl>
+            </FormControl> */}
 
             <Flex mt={'2%'}>
                 <FormControl mr="5%" isRequired>
-                    <FormLabel htmlFor="start-year" fontWeight={'normal'}>
+                    <FormLabel htmlFor="start_year" fontWeight={'normal'}>
                         Start from
                     </FormLabel>
-                    <Input id="start-year" type='date' />
+                    <Input id="start_year" type='date' name='start_year' onChange={handleChange} />
                 </FormControl>
 
                 <FormControl isRequired>
-                    <FormLabel htmlFor="passing-year" fontWeight={'normal'}>
+                    <FormLabel htmlFor="passing_year" fontWeight={'normal'}>
                         Passing year
                     </FormLabel>
-                    <Input id="lpassing-year" type='date' />
+                    <Input id="passing_year" type='date' name='passing_year' onChange={handleChange} />
                 </FormControl>
             </Flex>
 
             <FormControl as={GridItem} colSpan={[6, 3, null, 2]}>
                 <FormLabel
-                    htmlFor="college_id"
+                    htmlFor="clg_id"
                     fontSize="sm"
                     fontWeight="md"
                     color="gray.700"
@@ -205,9 +211,10 @@ const Form2 = () => {
                     College Id
                 </FormLabel>
                 <Input
+                onChange={handleChange}
                     type="text"
-                    name="college_id"
-                    id="college_id"
+                    name="clg_id"
+                    id="clg_id"
                     focusBorderColor="brand.400"
                     shadow="sm"
                     size="sm"
@@ -219,7 +226,7 @@ const Form2 = () => {
     )
 }
 
-const Form3 = () => {
+const Form3 = ({handleChange}) => {
     return (
         <>
             <Heading w="100%" textAlign={'center'} fontWeight="normal">
@@ -247,7 +254,9 @@ const Form3 = () => {
                             http://
                         </InputLeftAddon>
                         <Input
-                            type="tel"
+                            name='linkedin_url'
+                            onChange={handleChange}
+                            type="text"
                             placeholder="www.example.com"
                             focusBorderColor="brand.400"
                             rounded="md"
@@ -289,14 +298,26 @@ export default function RegistrationForm() {
     const [step, setStep] = useState(1)
     const [progress, setProgress] = useState(33.33)
 
+    const [form,setForm] = useState({
+        name : '',email:'',phone:'',password:'',clg_name:'',course:'',clg_id:'',start_year:'',passing_year:'',linkedin_url:'',bio:''
+    })
+
+    const handleChange = (e) =>{
+        
+        setForm({...form,[e.target.name]:e.target.value})
+        // console.log(form);
+    } 
+
+    const dispatch = useDispatch();
+
     const handleRegistration = () => {
-        toast({
-            title: 'Account created.',
-            description: "We've created your account for you.",
-            position: 'top',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
+       
+        console.log('form',form);
+
+        dispatch(RegisterUser(form));
+
+        setForm({
+            name : '',email:'',phone:'',password:'',clg_name:'',course:'',clg_id:'',start_year:'',passing_year:'',linkedin_url:'',bio:''
         })
     }
 
@@ -312,7 +333,7 @@ export default function RegistrationForm() {
                 m="10px auto"
                 as="form">
                 <Progress hasStripe value={progress} mb="5%" mx="5%" isAnimated colorScheme='pink'></Progress>
-                {step === 1 ? <Form1 /> : step === 2 ? <Form2 /> : <Form3 />}
+                {step === 1 ? <Form1 handleChange={handleChange} /> : step === 2 ? <Form2 handleChange={handleChange} /> : <Form3 handleChange={handleChange} />}
                 <ButtonGroup mt="5%" w="100%">
                     <Flex w="100%" justifyContent="space-between">
                         <Flex>

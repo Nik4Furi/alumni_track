@@ -13,7 +13,7 @@ import Home from './pages/Homepage/Home'
 import SideBar from './components/main/SideBar'
 import Alumni from './pages/Alumni/Alumni'
 import UserProfile from './pages/Profile/User/UserProfile.jsx'
-
+import toast,{Toaster} from 'react-hot-toast'
 import AdminLogin from './components/auth/AdminLogin.jsx'
 
 const App = () => {
@@ -29,13 +29,14 @@ const App = () => {
           <Route path='/jobs' element={<SideBar page={<Jobs />} />} />
           <Route path='/home' element={<SideBar page={<Home />} />} />
           <Route path='/alumni' element={<SideBar page={<Alumni />} />} />
-          {/* <Route path='/alumni' element={<SideBar page={<Alumni />} />} /> */}
-          <Route path='/profile/' element={<SideBar page={<UserProfile />} />} />
+          <Route path='/profile' element={<SideBar page={<UserProfile />} />} />
           <Route path='/dashboard/college' element={<Dashboard />} />
           <Route path='/dashboard/admin' element={<Admin />} />
           <Route path='/admin/login' element={<AdminLogin />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
+
+        <Toaster />
       </BrowserRouter>
     </>
   )

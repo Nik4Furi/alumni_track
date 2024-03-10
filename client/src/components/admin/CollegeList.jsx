@@ -3,9 +3,16 @@ import MiniStatistics from '../statistics/MiniStatistics'
 import { HiMiniBuildingOffice2 } from "react-icons/hi2";
 import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import StudentTable from '../tables/StudentTable';
+import { useSelector } from 'react-redux';
+import CollegeTable from '../tables/CollegeTable';
 
 const CollegeList = ({ verifiedCollegeList }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const verifiedclgs = useSelector(state => state.admin.verifiedclgs);
+
+    console.log(verifiedclgs);
+
     return (
         <>
             <Box onClick={onOpen} cursor={'pointer'}>
@@ -21,10 +28,10 @@ const CollegeList = ({ verifiedCollegeList }) => {
                     <ModalHeader>College List</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody overflowX={'auto'} >
-                        <StudentTable
-                            title={'All Verified Students'}
-                            captions={['User', 'College_Id', 'Batch', 'Course', 'Phone']}
-                            data={verifiedCollegeList} />
+                        <CollegeTable
+                            title={'All Verified Colleges'}
+                            captions={['College', 'Institute_code', 'Email', 'website_link', 'Phone']}
+                            data={verifiedclgs} />
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={onClose}>Close</Button>

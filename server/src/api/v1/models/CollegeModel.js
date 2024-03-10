@@ -29,6 +29,8 @@ const CollegeSchema = new mongoose.Schema({
         public_id: String, url: String
     },
 
+    courses : [String],
+
     website_link : String,
 
     address : String,

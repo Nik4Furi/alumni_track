@@ -6,10 +6,10 @@ const CollegeModel = require("../models/CollegeModel");
 
 const isCollege = async (req, res, next) => {
     try {
-        const token = req.cookies.token
+        const token = req.header('auth-token')
 
         if (!token)
-            return res.status(200).json({ success: false, msg: 'You are not authenticate user' });
+            return res.status(404).json({ success: false, msg: 'You are not authenticate college' });
 
         const Secret_Key = process.env.JWT_SECRET_KEY;
         const college = await jwt.verify(token, Secret_Key);

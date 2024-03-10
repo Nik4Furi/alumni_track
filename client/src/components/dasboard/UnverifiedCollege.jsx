@@ -9,18 +9,26 @@ import {
 import React from "react";
 import { RxCross1 } from "react-icons/rx";
 import { TiTick } from "react-icons/ti";
+import { DeleteCollege, VerfiyUnverifiedCollege } from "../../redux/AdminSlice";
+import { useDispatch } from "react-redux";
 
 
 function UnverifiedCollege(props) {
+    const dispatch = useDispatch();
+
     const bgColor = useColorModeValue("#F8F9FA", "gray.800");
     const nameColor = useColorModeValue("gray.500", "white");
-    const { collegeId, name, institute_no, type, website, address, email, phone } = props;
+    const { collegeId, _id, name, institute_no, type, website, address, email, phone } = props;
 
     // Denied Verification
-    const handleNotVerified = (collegeId) => { alert('Verification denied for collegeId: ' + collegeId) }
+    const handleNotVerified = () => {
+            dispatch(DeleteCollege(_id));
+    }
 
     // Verification True
-    const handleVerified = (collegeId) => { alert('Verification done for collegeId: ' + collegeId) }
+    const handleVerified = () => {
+        dispatch(VerfiyUnverifiedCollege(_id));
+     }
 
     return (
         <Box p="24px" bg={bgColor} my="22px" borderRadius="12px">
@@ -71,10 +79,10 @@ function UnverifiedCollege(props) {
                     align="flex-start"
                 // p={{ md: "24px" }}
                 >
-                    <Button p="0px" bg="red.400" mr={'10px'} mb={'10px'} onClick={() => { handleNotVerified(collegeId) }}>
+                    <Button p="0px" bg="red.400" mr={'10px'} mb={'10px'} onClick={handleNotVerified}>
                         <RxCross1 />
                     </Button>
-                    <Button p="0px" bg="green.400" onClick={() => { handleVerified(collegeId) }}>
+                    <Button p="0px" bg="green.400" onClick={handleVerified}>
                         <TiTick />
                     </Button>
                 </Flex>

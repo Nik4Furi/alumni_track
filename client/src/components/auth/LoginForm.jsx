@@ -15,18 +15,41 @@ import {
     HStack,
     InputGroup,
     InputRightElement,
+    Spinner
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { LoginUser, UserLogin } from '../../redux/UsersSlice'
 
 export default function LoginForm() {
     const navigate = useNavigate()
 
     const [showPassword, setShowPassword] = useState(false)
 
+    const [form,setForm] = useState({email:'',password:''})
+
+    const handleChange = (e) => setForm({...form,[e.target.name]:e.target.value});
+
+    const dispatch = useDispatch();
+
     const handleLogin = () => {
-        navigate('/home')
+        console.log(form)
+
+        console.log('call dispatch before ')
+        dispatch(LoginUser(form));
+        console.log('call dispatch after ')
+
+        navigate('/profile')
     }
+
+    const token = localStorage.getItem('token');
+
+    useEffect(()=>{
+        if(token)
+            navigate('/profile')
+
+    },[])
 
     return (
         <Flex
@@ -52,12 +75,12 @@ export default function LoginForm() {
                     <Stack spacing={4}>
                         <FormControl id="email" isRequired>
                             <FormLabel>Email address</FormLabel>
-                            <Input type="email" />
+                            <Input type="email" name='email' onChange={handleChange} />
                         </FormControl>
                         <FormControl id="password" isRequired>
                             <FormLabel>Password</FormLabel>
                             <InputGroup>
-                                <Input type={showPassword ? 'text' : 'password'} />
+                                <Input type={showPassword ? 'text' : 'password'} name='password' onChange={handleChange} />
                                 <InputRightElement h={'full'}>
                                     <Button
                                         variant={'ghost'}
@@ -75,12 +98,14 @@ export default function LoginForm() {
                                 <Link to={'/signup'}>Not a member?</Link>
                                 <Text color={'pink.400'} cursor={'pointer'}><Link to={'/reset-password'}>Forgot Password?</Link></Text>
                             </Stack>
+                            <Spinner color='pink.500' />
                             <Button
                                 bg={'pink.400'}
                                 color={'white'}
                                 _hover={{
                                     bg: 'pink.500',
                                 }}
+                                isLoading
                                 onClick={handleLogin}
                             >
                                 Sign in

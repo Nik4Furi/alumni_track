@@ -316,11 +316,11 @@ export default function RegistrationForm() {
 
         dispatch(RegisterUser(form));
 
-        setLoading(false);
-
+        
         setForm({
             name : '',email:'',phone:'',password:'',clg_name:'',course:'',clg_id:'',start_year:'',passing_year:'',linkedin_url:'',bio:''
         })
+        setLoading(false);
     }
 
     return (

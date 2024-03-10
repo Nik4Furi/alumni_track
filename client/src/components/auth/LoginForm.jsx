@@ -33,14 +33,18 @@ export default function LoginForm() {
 
     const dispatch = useDispatch();
 
+    const [loading,setLoading] = useState(false);
+
     const handleLogin = () => {
         console.log(form)
 
+        setLoading(true);
         console.log('call dispatch before ')
         dispatch(LoginUser(form));
         console.log('call dispatch after ')
 
         navigate('/profile')
+        setLoading(false)
     }
 
     const token = localStorage.getItem('token');
@@ -98,14 +102,14 @@ export default function LoginForm() {
                                 <Link to={'/signup'}>Not a member?</Link>
                                 <Text color={'pink.400'} cursor={'pointer'}><Link to={'/reset-password'}>Forgot Password?</Link></Text>
                             </Stack>
-                            <Spinner color='pink.500' />
+                            {/* <Spinner color='pink.500' /> */}
                             <Button
                                 bg={'pink.400'}
                                 color={'white'}
                                 _hover={{
                                     bg: 'pink.500',
                                 }}
-                                isLoading
+                                isLoading={loading}
                                 onClick={handleLogin}
                             >
                                 Sign in

@@ -294,7 +294,6 @@ const Form3 = ({handleChange}) => {
 }
 
 export default function RegistrationForm() {
-    const toast = useToast()
     const [step, setStep] = useState(1)
     const [progress, setProgress] = useState(33.33)
 
@@ -310,11 +309,14 @@ export default function RegistrationForm() {
 
     const dispatch = useDispatch();
 
-    const handleRegistration = () => {
-       
-        console.log('form',form);
+    const [loading,setLoading] = useState(false);
+
+    const handleRegistration = () => {       
+        setLoading(true);
 
         dispatch(RegisterUser(form));
+
+        setLoading(false);
 
         setForm({
             name : '',email:'',phone:'',password:'',clg_name:'',course:'',clg_id:'',start_year:'',passing_year:'',linkedin_url:'',bio:''
@@ -350,6 +352,7 @@ export default function RegistrationForm() {
                                 Back
                             </Button>
                             <Button
+                            isLoading = {loading}
                                 w="7rem"
                                 onClick={() => {
                                     if (step !== 3) {

@@ -18,7 +18,7 @@ const AlumniList = ({ verifiedAlumniList }) => {
             <Box onClick={onOpen} cursor={'pointer'}>
                 <MiniStatistics
                     title={"Total Alumni"}
-                    amount={"53,000"}
+                    amount={alumnis?.length}
                     icon={<PiStudentFill h={"24px"} w={"24px"} color={'white'} />}
                 />
             </Box>

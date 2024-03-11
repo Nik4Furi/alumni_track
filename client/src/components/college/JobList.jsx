@@ -2,15 +2,18 @@ import React from 'react'
 import MiniStatistics from '../statistics/MiniStatistics'
 import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import { MdWork } from 'react-icons/md';
+import { useSelector } from 'react-redux';
 
 const JobList = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const posts = useSelector(state => state.admin.posts);
+
     return (
         <>
             <Box onClick={onOpen} cursor={'pointer'}>
                 <MiniStatistics
                     title={"Total Jobs"}
-                    amount={"3,000"}
+                    amount={posts?.length}
                     icon={<MdWork h={"24px"} w={"24px"} color={'white'} />}
                 />
             </Box>

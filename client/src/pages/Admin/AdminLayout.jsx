@@ -15,10 +15,13 @@ import CollegeList from '../../components/admin/CollegeList'
 import { useDispatch } from 'react-redux'
 import { GetAllPostedJobsList, GetUnverifiedCollegeList, GetVerifiedAlumniList, GetVerifiedCollegeList, GetVerifiedStudentList } from '../../redux/AdminSlice'
 import { token } from '../../utils/GlobalFunctions'
+import { useNavigate } from 'react-router-dom'
+import AdminNavbar from '../../components/main/AdminNavbar'
 
 const AdminLayout = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(()=>{
         if(token){
@@ -33,14 +36,17 @@ const AdminLayout = () => {
 
             dispatch(GetAllPostedJobsList());
         }
-    },[])
 
-       
+        else 
+            navigate('/admin/login');
+    },[dispatch])
+
+    
 
 
     return (
         <>
-            <Navbar2 />
+            <AdminNavbar/>
             <Box pt={4} p={2} w={'full'} bg={'gray.100'}>
                 <Flex flexDirection='column' >
                     <SimpleGrid columns={{ sm: 1, md: 2, xl: 3 }} spacing='24px'>

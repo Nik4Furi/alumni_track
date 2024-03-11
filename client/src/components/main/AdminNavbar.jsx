@@ -21,10 +21,11 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { LogoutClg } from '../../redux/ClgSlice'
+import { LogoutAdmin } from '../../redux/AdminSlice'
 
 
 
-export default function Simple() {
+export default function AdminNavbar() {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const handleMenuClose = () => { onClose() }
 
@@ -32,7 +33,7 @@ export default function Simple() {
     const navigate = useNavigate();
 
     const handleLogout = ()=>{
-        dispatch(LogoutClg());
+        dispatch(LogoutAdmin());
 
         navigate(-1)
     }

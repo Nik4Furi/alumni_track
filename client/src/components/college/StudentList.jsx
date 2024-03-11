@@ -16,7 +16,7 @@ const StudentList = ({ verifiedStudentList }) => {
             <Box onClick={onOpen} cursor={'pointer'}>
                 <MiniStatistics
                     title={"Total Students"}
-                    amount={"53,000"}
+                    amount={students?.length}
                     icon={<FaUser h={"24px"} w={"24px"} color={'white'} />}
                 />
             </Box>

@@ -528,3 +528,8 @@ export const GetAllPostedJobsList = () => async dispatch =>{
     }
 }
 
+export const LogoutAdmin = ()=> async dispatch =>{
+    localStorage.removeItem('token');
+
+    dispatch(AdminLogout());
+}

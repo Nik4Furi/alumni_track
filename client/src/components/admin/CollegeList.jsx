@@ -18,7 +18,7 @@ const CollegeList = ({ verifiedCollegeList }) => {
             <Box onClick={onOpen} cursor={'pointer'}>
                 <MiniStatistics
                     title={"Total Colleges"}
-                    amount={"53,000"}
+                    amount={verifiedclgs?.length}
                     icon={<HiMiniBuildingOffice2  h={"24px"} w={"24px"} color={'white'} />}
                 />
             </Box>

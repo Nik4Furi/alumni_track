@@ -36,6 +36,7 @@ export default function AdminLogin() {
 
     const handleAdminLogin = async() => {
         dispatch(LoginAdmin(form))
+        navigate('/dashboard/admin')
       
     }
 

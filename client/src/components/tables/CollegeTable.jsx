@@ -12,6 +12,7 @@ import {
   
   import React from "react";
   import TablesTableRow from '../../components/tables/TablesTableRow'
+import AdminTablesRow from "./AdminTablesRow";
   
   const CollegeTable = ({ captions, data }) => {
   
@@ -34,7 +35,7 @@ import {
             <Tbody>
               {data.map((row, index) => {
                 return (
-                  <TablesTableRow
+                  <AdminTablesRow
                     _id = {row?._id}
                     key={index}
                     name={row?.name}
